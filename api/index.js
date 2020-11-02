@@ -1,9 +1,13 @@
+const pg = require("hapi-plugin-pg");
 const manifest = {
   server: {
     port: 3000,
   },
   register: {
     plugins: [
+      {
+        plugin: require("./database/index"),
+      },
       {
         plugin: require("./baseAPI"),
       },

@@ -1,4 +1,3 @@
-const pg = require("hapi-plugin-pg");
 const manifest = {
   server: {
     port: 3000,
@@ -6,7 +5,7 @@ const manifest = {
   register: {
     plugins: [
       {
-        plugin: require("./database/index"),
+        plugin: require("./database/databaseConnect"),
       },
       {
         plugin: require("./baseAPI"),

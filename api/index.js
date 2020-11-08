@@ -1,3 +1,5 @@
+"use strict";
+
 const manifest = {
   server: {
     port: 3000,
@@ -8,10 +10,7 @@ const manifest = {
         plugin: require("./database/databaseConnect"),
       },
       {
-        plugin: require("./UserRoutes"),
-      },
-      {
-        plugin: require("./baseAPI"),
+        plugin: require("./routes/UserRoutes"),
       },
     ],
     options: {

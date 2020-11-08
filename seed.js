@@ -1,3 +1,5 @@
+"use strict";
+
 const database = require("./api/database/database");
 const { blue, red } = require("chalk");
 const User = require("./api/database/models/Users");
@@ -11,7 +13,7 @@ const UserSample = [
 const seed = async () => {
   await database.sync({ force: true });
 
-  // seed your database here!
+  //this seeds the database
   await Promise.all(
     UserSample.map((user) => {
       return User.create(user);

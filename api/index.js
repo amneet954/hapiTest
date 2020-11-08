@@ -8,6 +8,9 @@ const manifest = {
         plugin: require("./database/databaseConnect"),
       },
       {
+        plugin: require("./UserRoutes"),
+      },
+      {
         plugin: require("./baseAPI"),
       },
     ],

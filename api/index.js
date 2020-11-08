@@ -7,7 +7,7 @@ const manifest = {
   register: {
     plugins: [
       {
-        plugin: require("./database/databaseConnect"),
+        plugin: require("./database/startDatabase"),
       },
       {
         plugin: require("./routes/UserRoutes"),

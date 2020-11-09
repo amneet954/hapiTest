@@ -40,8 +40,8 @@ exports.register = (server, options) => {
     path: "/users",
     handler: async (request, h) => {
       try {
-        const { email } = request.payload;
-        const response = await User.create({ email });
+        const { email, password } = request.payload;
+        const response = await User.create({ email, password });
         return response;
       } catch (error) {
         console.log(error);

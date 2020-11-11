@@ -7,7 +7,7 @@ const options = {
   relativeTo: __dirname,
 };
 
-const startServer = async function () {
+const startServer = async () => {
   try {
     const server = await Glue.compose(manifest, options);
     await server.start();

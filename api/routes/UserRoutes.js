@@ -66,7 +66,7 @@ exports.register = (server, options) => {
           },
         });
 
-        let value = await response[0].correctPassword(password);
+        let value = await response[0].checkPassword(password);
         return value;
       } catch (error) {
         console.log(error);

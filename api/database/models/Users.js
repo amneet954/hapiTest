@@ -1,15 +1,8 @@
 "use strict";
+
 const crypto = require("crypto");
 const Sequelize = require("sequelize");
 const database = require("../database");
-
-const b64Encode = (obj) => {
-  return Buffer.from(obj)
-    .toString("base64")
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/g, "");
-};
 
 const User = database.define("user", {
   email: {
@@ -44,11 +37,11 @@ const User = database.define("user", {
 
 module.exports = User;
 
-User.generateSalt = () => {
+User.createSalt = () => {
   return crypto.randomBytes(16).toString("base64");
 };
 
-User.encryptPassword = (text, salt) => {
+User.encryptPass = (text, salt) => {
   return crypto
     .createHash("RSA-SHA256")
     .update(text)
@@ -56,15 +49,16 @@ User.encryptPassword = (text, salt) => {
     .digest("hex");
 };
 
-const setSaltAndPassword = (user) => {
+const createSaltPassword = (user) => {
   if (user.changed("password")) {
-    user.salt = User.generateSalt();
-    user.password = User.encryptPassword(user.password, user.salt());
+    user.salt = User.createSalt();
+    user.password = User.encryptPass(user.password, user.salt());
   }
 };
-User.beforeCreate(setSaltAndPassword);
-User.beforeUpdate(setSaltAndPassword);
 
-User.prototype.correctPassword = function (enteredPassword) {
-  return User.encryptPassword(enteredPassword, this.salt()) === this.password;
+User.beforeCreate(createSaltPassword);
+User.beforeUpdate(createSaltPassword);
+
+User.prototype.checkPassword = function (userPassword) {
+  return User.encryptPass(userPassword, this.salt()) === this.password;
 };

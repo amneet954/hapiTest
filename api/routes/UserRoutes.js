@@ -3,6 +3,7 @@
 const User = require("../database/models/Users");
 
 exports.register = (server, options) => {
+  //Get All Users
   server.route({
     method: "GET",
     path: "/users",
@@ -16,15 +17,16 @@ exports.register = (server, options) => {
     },
   });
 
+  //Get User By Email
   server.route({
     method: "GET",
-    path: "/users/{id}",
+    path: "/users/{email}",
     handler: async (request, h) => {
       try {
-        const { id } = request.params;
+        const { email } = request.params;
         const user = await User.findAll({
           where: {
-            id,
+            email,
           },
         });
         return user;
@@ -35,9 +37,10 @@ exports.register = (server, options) => {
     },
   });
 
+  //Create User
   server.route({
     method: "POST",
-    path: "/users",
+    path: "/user",
     handler: async (request, h) => {
       try {
         const { email, password } = request.payload;
@@ -50,15 +53,38 @@ exports.register = (server, options) => {
     },
   });
 
+  //Verify Password
   server.route({
-    method: "DELETE",
-    path: "/users/{id}",
+    method: "POST",
+    path: "/verify",
     handler: async (request, h) => {
       try {
-        const { id } = request.params;
+        const { email, password } = request.payload;
+        const response = await User.findAll({
+          where: {
+            email,
+          },
+        });
+
+        let value = await response[0].correctPassword(password);
+        return value;
+      } catch (error) {
+        console.log(error);
+        return error;
+      }
+    },
+  });
+
+  //Delete User By Email
+  server.route({
+    method: "DELETE",
+    path: "/users/{email}",
+    handler: async (request, h) => {
+      try {
+        const { email } = request.params;
         const response = await User.destroy({
           where: {
-            id,
+            email,
           },
         });
         return response;

@@ -65,7 +65,6 @@ const setSaltAndPassword = (user) => {
 User.beforeCreate(setSaltAndPassword);
 User.beforeUpdate(setSaltAndPassword);
 
-//has to be written in ES5
 User.prototype.correctPassword = function (enteredPassword) {
   return User.encryptPassword(enteredPassword, this.salt()) === this.password;
 };

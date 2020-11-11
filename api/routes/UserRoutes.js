@@ -1,5 +1,6 @@
 "use strict";
 
+const Joi = require("joi");
 const User = require("../database/models/Users");
 
 exports.register = (server, options) => {
